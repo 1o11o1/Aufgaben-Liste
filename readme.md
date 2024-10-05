@@ -30,13 +30,13 @@ Folge diesen Schritten, um die Anwendung lokal auf deinem Rechner auszuführen:
 
 3. **start.bat** starten
 
-🤝 Mitwirken
+## 🤝 Mitwirken
 Beiträge sind willkommen! Folge einfach diesen Schritten:
 
-📄 Lizenz
+## 📄 Lizenz
 Dieses Projekt ist unter der MIT License lizenziert.
 
-📝 Danksagung
+## 📝 Danksagung
 Flask für das Webframework.
 Bootstrap für das CSS-Framework.
 Flask_SQLAlchemy für die Datenbankintegration.
