@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aufgaben-Liste</title>
+    
+    <!-- Bootstrap CSS einbinden -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .done {
+            text-decoration: line-through;
+            color: grey;
+        }
+        .custom-btn {
+            background-color: gray;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center">Aufgaben-Liste</h1>
+
+        <!-- Formular zum Hinzufügen neuer Aufgaben -->
+        <form action="/add" method="POST" class="d-flex justify-content-center mb-4">
+            <input type="text" name="task" class="form-control w-50" placeholder="Neue Aufgabe hinzufügen" autofocus>
+            <button type="submit" class="btn btn-primary ms-2">Hinzufügen</button>
+        </form>
+
+        <!-- Liste der unerledigten Aufgaben -->
+        <ul class="list-group mb-4">
+            <h4>Offene Aufgaben</h4>
+            {% for todo in todos_active %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ todo.task }}
+                    <div>
+                        <a href="{{ url_for('toggle', task_id=todo.id) }}" class="btn btn-sm btn-outline-success">
+                            Als erledigt markieren
+                        </a>
+                        <a href="{{ url_for('delete', task_id=todo.id) }}" class="btn btn-sm btn-outline-danger ms-2">Löschen</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Einklappbare Liste der erledigten Aufgaben -->
+        <h4>
+            <a class="btn custom-btn" data-bs-toggle="collapse" href="#completedTasks" role="button" aria-expanded="false" aria-controls="completedTasks">
+                Fertige Aufgaben
+            </a>
+        </h4>
+        
+        <div class="collapse" id="completedTasks">
+            <ul class="list-group mb-4">
+                {% for todo in todos_done %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center done">
+                        {{ todo.task }}
+                        <div>
+                            <a href="{{ url_for('toggle', task_id=todo.id) }}" class="btn btn-sm btn-outline-warning">
+                                Erledigt zurücksetzen
+                            </a>
+                            <a href="{{ url_for('delete', task_id=todo.id) }}" class="btn btn-sm btn-outline-danger ms-2">Löschen</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS und Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <!-- Dein eigenes JavaScript von main.js-->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+    <!-- Bestätigungs-Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteLabel">Aufgabe löschen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                </div>
+                <div class="modal-body">
+                    Bist du sicher, dass du diese Aufgabe löschen möchtest?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Löschen</button>
+                </div>
+            </div>
+        </div>
+    </div>   
+</body>
+</html>
